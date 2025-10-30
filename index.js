@@ -16,7 +16,11 @@ async function runMonkeyTyper() {
 
     // Beri waktu 5 detik bagi Anda untuk mengklik 'mulai' atau setting
     console.log('Anda punya 5 detik untuk klik/setup di browser...');
-    await page.waitForTimeout(5000);
+    
+    // --- PERBAIKAN 1 DI SINI ---
+    // Mengganti page.waitForTimeout(5000) dengan Promise
+    await new Promise(r => setTimeout(r, 3000));
+    
     console.log('Mengambil teks...');
 
     // 4. Ambil semua kata (menggunakan kode di dalam konteks browser)
@@ -36,13 +40,13 @@ async function runMonkeyTyper() {
 
     console.log(`Teks ditemukan. Memulai pengetikan: "${textToType.substring(0, 20)}..."`);
     
-    // 5. INI BAGIAN PENTINGNYA: Ketik teksnya!
-    // 'delay' mensimulasikan kecepatan ketik manusia (WPM)
-    await page.keyboard.type(textToType, { delay: 50 }); // delay 50ms antar ketukan
+    // 5. Ketik teksnya!
+    await page.keyboard.type(textToType, { delay: 40 }); // delay 50ms antar ketukan
 
     console.log('Selesai!');
+    
     // Biarkan browser tetap terbuka selama 10 detik untuk melihat hasil
-    await page.waitForTimeout(10000);
+    await new Promise(r => setTimeout(r, 10000));
     
     await browser.close();
 }
